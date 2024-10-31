@@ -12,7 +12,7 @@ export const Hero = styled('div', {
   maxWidth: 480,
   padding: '0 $10',
 
-  [`${Heading}`]: {},
+  [`> ${Heading}`]: {},
 
   [`${Text}`]: {
     marginTop: '$2',
