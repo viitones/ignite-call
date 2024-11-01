@@ -34,10 +34,11 @@ export function ClaimUsernameForm() {
     <>
       <Form as="form" onSubmit={handleSubmit(handleClaimUsername)}>
         <TextInput
+          crossOrigin=""
           {...register('username')}
           size="sm"
           prefix="ignite.com/"
-          placeholder="seu-usuario"
+          placeholder="seu-usuário"
         />
         <Button size="sm" type="submit">
           Reservar
@@ -45,10 +46,10 @@ export function ClaimUsernameForm() {
         </Button>
       </Form>
       <FormAnnotation>
-        <Text>
-          {errors.username?.message && errors.username?.message}
-          {!errors.username?.message && 'Digite o nome do usuário desejado'}
-        </Text>
+        {errors.username && (
+          <Text className="error">{errors.username?.message}</Text>
+        )}
+        {!errors.username && <Text>Digite o nome do usuário desejado</Text>}
       </FormAnnotation>
     </>
   )
