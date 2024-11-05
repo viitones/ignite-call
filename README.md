@@ -8,3 +8,5 @@ npx prisma init --datasource-provider SQLite
 npx prisma migrate dev
 npx prisma studio
 npm i axios
+npm i  nookies
+npm i @types/cookie
