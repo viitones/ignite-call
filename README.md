@@ -10,3 +10,4 @@ npx prisma studio
 npm i axios
 npm i  nookies
 npm i @types/cookie
+npm install next-auth
