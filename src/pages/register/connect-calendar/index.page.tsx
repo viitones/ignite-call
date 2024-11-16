@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 export default function Register() {
   const session = useSession()
   const router = useRouter()
+  console.log(session)
 
   const hasAuthError = !!router.query.error
   const isSignedIn = session.status === 'authenticated'
