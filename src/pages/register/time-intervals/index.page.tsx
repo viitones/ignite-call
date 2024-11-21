@@ -7,6 +7,7 @@ import {
   TextInput,
 } from '@ignite-ui/react'
 
+import { api } from '@/src/lib/axios'
 import { convertTimeStringInMinutes } from '@/src/utils/convert-time-string-in-minutes'
 import { getWeekDays } from '@/src/utils/get-week-days'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -99,9 +100,9 @@ export default function TimeIntervals() {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async function handleSetTimeIntervals(data: any) {
-    const formData = data as TimeIntervalsFormOutput
+    const { intervals } = data as TimeIntervalsFormOutput
 
-    console.log(formData)
+    await api.post('/users/time-intervals', { intervals })
   }
 
   return (
