@@ -37,7 +37,7 @@ CREATE TABLE "sessions" (
 -- CreateTable
 CREATE TABLE "user_time_intervals" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "week_day" TEXT NOT NULL,
+    "week_day" INTEGER NOT NULL,
     "time_start_in_minutes" INTEGER NOT NULL,
     "time_end_in_minutes" INTEGER NOT NULL,
     "user_Id" TEXT NOT NULL,
