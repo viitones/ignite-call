@@ -1,11 +1,11 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse, NextPageContext } from 'next'
 import { Adapter } from 'next-auth/adapters'
 import { destroyCookie, parseCookies } from 'nookies'
 import { prisma } from '../prisma'
 
 export function PrismaAdapter(
-  req: NextApiRequest,
-  res: NextApiResponse,
+  req: NextApiRequest | NextPageContext['req'],
+  res: NextApiResponse | NextPageContext['res'],
 ): Adapter {
   return {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
