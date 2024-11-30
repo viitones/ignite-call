@@ -1,3 +1,4 @@
+import { api } from '@/src/lib/axios'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Avatar,
@@ -16,6 +17,7 @@ import { z } from 'zod'
 import { buildNextAuthOptions } from '../../api/auth/[...nextauth].api'
 import { Container, Header } from '../styles'
 import { FormAnnotation, ProfileBox } from './styles'
+import { useRouter } from 'next/router'
 
 const UpdateProfileSchema = z.object({
   bio: z.string(),
@@ -33,10 +35,17 @@ export default function UpdateProfile() {
   })
 
   const session = useSession()
+  const router = useRouter()
 
   console.log(session)
 
-  async function handleUpdateProfile() {}
+  async function handleUpdateProfile(data: UpdateProfileData) {
+    await api.put('/users/profile', {
+      bio: data.bio,
+    })
+
+    await router.push(`/schedule/${session.data?.user.username}`)
+  }
 
   return (
     <Container>
@@ -47,7 +56,7 @@ export default function UpdateProfile() {
           editar essas informações depois.
         </Text>
 
-        <MultiStep size={4} currentStep={1} />
+        <MultiStep size={4} currentStep={4} />
       </Header>
 
       <ProfileBox as="form" onSubmit={handleSubmit(handleUpdateProfile)}>
@@ -55,6 +64,7 @@ export default function UpdateProfile() {
           <Text>Foto de perfil</Text>
           <Avatar
             src={session.data?.user.avatar_url}
+            alt={session.data?.user.username}
             referrerPolicy="no-referrer"
           />
         </label>

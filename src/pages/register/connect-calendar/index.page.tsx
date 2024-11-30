@@ -11,13 +11,16 @@ import { useRouter } from 'next/router'
 export default function ConnectCalendar() {
   const session = useSession()
   const router = useRouter()
-  console.log(session)
 
   const hasAuthError = !!router.query.error
   const isSignedIn = session.status === 'authenticated'
 
   async function handleConnectCalendar() {
     await signIn('google')
+  }
+
+  async function handleNavigateToNextStep() {
+    await router.push('/register/update-profile')
   }
 
   return (
@@ -56,7 +59,11 @@ export default function ConnectCalendar() {
           </AuthError>
         )}
 
-        <Button type="submit" disabled={!isSignedIn}>
+        <Button
+          onClick={handleNavigateToNextStep}
+          type="submit"
+          disabled={!isSignedIn}
+        >
           Próximo passo
           <ArrowRight />
         </Button>
