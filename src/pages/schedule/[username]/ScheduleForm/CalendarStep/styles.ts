@@ -37,10 +37,11 @@ export const TimePicker = styled('div', {
 })
 
 export const TimePickerHeader = styled(Text, {
-  fontWeight: '$medium',
+  fontWeight: '$md',
 
-  spam: {
+  span: {
     color: '$gray200',
+    fontSize: '$md',
   },
 })
 
