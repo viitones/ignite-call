@@ -1,6 +1,8 @@
 /* eslint-disable camelcase */
+import { getGoogleOAuthToken } from '@/src/lib/google'
 import { prisma } from '@/src/lib/prisma'
 import dayjs from 'dayjs'
+import { google } from 'googleapis'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { z } from 'zod'
 
@@ -52,13 +54,44 @@ export default async function handle(
     return res.status(400).json({ message: 'Conflict date' })
   }
 
-  await prisma.scheduling.create({
+  const scheduling = await prisma.scheduling.create({
     data: {
       name,
       email,
       observations,
       date: schedulingDate.toDate(),
       user_Id: user.id,
+    },
+  })
+
+  const calendar = google.calendar({
+    version: 'v3',
+    auth: await getGoogleOAuthToken(user.id),
+  })
+
+  await calendar.events.insert({
+    conferenceDataVersion: 1,
+    calendarId: 'primary',
+    requestBody: {
+      summary: `Ignite Call: ${name}`,
+      description: observations,
+      start: {
+        dateTime: schedulingDate.format(),
+        timeZone: 'America/Sao_Paulo',
+      },
+      end: {
+        dateTime: schedulingDate.add(1, 'hour').format(),
+        timeZone: 'America/Sao_Paulo',
+      },
+      attendees: [{ email, displayName: name }],
+      conferenceData: {
+        createRequest: {
+          requestId: scheduling.id,
+          conferenceSolutionKey: {
+            type: 'hangoutsMeet',
+          },
+        },
+      },
     },
   })
 
